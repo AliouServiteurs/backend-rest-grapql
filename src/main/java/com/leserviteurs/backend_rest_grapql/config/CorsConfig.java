@@ -25,7 +25,7 @@ public class CorsConfig {
         // Origines autorisées (frontend React)
         config.setAllowedOrigins(Arrays.asList(
             "http://localhost:3000"      // Create React App
-            // "http://localhost:5173",      // Vite
+            // "http://localhost:5173"    // Vite
             // "http://localhost:4200"       // Angular (au cas où)
         ));
 
