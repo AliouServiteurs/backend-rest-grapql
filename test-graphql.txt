@@ -1,0 +1,170 @@
+# ==============================================
+# TESTS API GRAPHQL - Personne
+# Tester dans GraphiQL: http://localhost:8080/graphiql
+# ==============================================
+
+# =====================
+# 1. QUERY - allPersonnes
+# =====================
+
+# Test 1.1 : Récupérer toutes les personnes (tous les champs)
+query {
+  allPersonnes {
+    id
+    nom
+    prenom
+    dateNaissance
+    adresse
+    telephone
+  }
+}
+
+# Test 1.2 : Récupérer toutes les personnes (seulement nom et prenom)
+query {
+  allPersonnes {
+    id
+    nom
+    prenom
+  }
+}
+
+
+# =====================
+# 2. QUERY - personneById
+# =====================
+
+# Test 2.1 : Récupérer personne avec ID existant (1)
+query {
+  personneById(id: 1) {
+    id
+    nom
+    prenom
+    dateNaissance
+    adresse
+    telephone
+  }
+}
+
+# Test 2.2 : Récupérer personne avec ID existant (2)
+query {
+  personneById(id: 2) {
+    id
+    nom
+    prenom
+  }
+}
+
+# Test 2.3 : Erreur - ID inexistant (devrait retourner null avec erreur NOT_FOUND)
+query {
+  personneById(id: 999) {
+    id
+    nom
+    prenom
+  }
+}
+
+
+# =====================
+# 3. QUERY - searchPersonnes
+# =====================
+
+# Test 3.1 : Rechercher par nom
+query {
+  searchPersonnes(nom: "Diop") {
+    id
+    nom
+    prenom
+    telephone
+  }
+}
+
+# Test 3.2 : Rechercher par prénom
+query {
+  searchPersonnes(prenom: "Fatou") {
+    id
+    nom
+    prenom
+    adresse
+  }
+}
+
+# Test 3.3 : Rechercher par téléphone
+query {
+  searchPersonnes(telephone: "771") {
+    id
+    nom
+    prenom
+    telephone
+  }
+}
+
+# Test 3.4 : Rechercher avec plusieurs filtres
+query {
+  searchPersonnes(nom: "Diop", prenom: "Moussa") {
+    id
+    nom
+    prenom
+    dateNaissance
+  }
+}
+
+# Test 3.5 : Rechercher sans filtre (devrait retourner tous)
+query {
+  searchPersonnes {
+    id
+    nom
+    prenom
+  }
+}
+
+# Test 3.6 : Rechercher avec critère inexistant
+query {
+  searchPersonnes(nom: "Inexistant") {
+    id
+    nom
+    prenom
+  }
+}
+
+
+# =====================
+# 4. QUERIES MULTIPLES (Avancé)
+# =====================
+
+# Test 4.1 : Exécuter plusieurs queries en une fois
+query {
+  toutes: allPersonnes {
+    id
+    nom
+  }
+  
+  personne1: personneById(id: 1) {
+    nom
+    prenom
+  }
+  
+  recherche: searchPersonnes(nom: "Fall") {
+    id
+    prenom
+  }
+}
+
+
+# =====================
+# 5. TESTS AVEC VARIABLES (Avancé)
+# =====================
+
+# Test 5.1 : Query avec variables
+query GetPersonne($personneId: ID!) {
+  personneById(id: $personneId) {
+    id
+    nom
+    prenom
+    telephone
+  }
+}
+
+# Variables (à mettre dans l'onglet "Variables" de GraphiQL):
+# {
+#   "personneId": 1
+# }

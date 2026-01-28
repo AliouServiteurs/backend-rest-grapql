@@ -1,0 +1,25 @@
+# Type représentant une Personne
+type Personne {
+    id: ID!
+    nom: String!
+    prenom: String!
+    dateNaissance: String
+    adresse: String
+    telephone: String
+}
+
+# Requêtes disponibles (READ ONLY)
+type Query {
+    # Récupérer toutes les personnes
+    allPersonnes: [Personne!]!
+    
+    # Récupérer une personne par son ID
+    personneById(id: ID!): Personne
+    
+    # Rechercher des personnes avec des filtres optionnels
+    searchPersonnes(
+        nom: String
+        prenom: String
+        telephone: String
+    ): [Personne!]!
+}
