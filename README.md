@@ -84,7 +84,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 ### 1. Cloner le repository
 ```bash
-git clone https://github.com/votre-username/backend-rest-graphql.git
+git clone https://github.com/AliouServiteurs/backend-rest-graphql.git
 cd backend-rest-graphql
 ```
 
@@ -110,6 +110,11 @@ spring.jpa.show-sql=true
 
 # GraphQL
 spring.graphql.graphiql.enabled=true
+# Activer GraphiQL (interface de test GraphQL)
+spring.graphql.graphiql.path=/graphiql
+
+# URL de l'endpoint GraphQL
+spring.graphql.path=/graphql
 
 # Serveur
 server.port=8080
@@ -293,8 +298,10 @@ src/main/java/com/leserviteurs/backend_rest_grapql/
 │   ├── ResourceNotFoundException.java   # Exception personnalisée
 │   ├── GlobalExceptionHandler.java      # Gestion erreurs REST
 │   └── ErrorResponse.java               # Format erreurs
-└── config/
-    └── CorsConfig.java                  # Configuration CORS
+├── config/
+│    └── CorsConfig.java                  # Configuration CORS
+├── validation                            
+    └── ValidationUtils.java              # Validations des champs
 
 src/main/resources/
 ├── application.properties               # Configuration
@@ -401,11 +408,11 @@ SELECT * FROM personne;
 
 ### Validations automatiques
 
-- **Nom** : Obligatoire, max 100 caractères → Normalisé en MAJUSCULES
-- **Prénom** : Obligatoire, max 100 caractères → Première lettre en majuscule
+- **Nom** : Obligatoire, max 100 caractères → Normalisé en MAJUSCULES(ne contient que des lettres et espace)
+- **Prénom** : Obligatoire, max 100 caractères → Première lettre en majuscule(ne contient que des lettres et espace)
 - **Date de naissance** : Doit être dans le passé
-- **Téléphone** : Unique, max 20 caractères → Espaces supprimés
-- **Adresse** : Max 255 caractères → Espaces supprimés
+- **Téléphone** : Unique, max 20 caractères → Espaces supprimés(en pratique la limte est 9 caractères pour le Sénégal et seulement des chiffres commencçant par 7. parexemple 77, 76, 70,78, 75)
+- **Adresse** : Max 255 caractères → Cretaines caractères sont autorisé et d'autres non
 
 ### Exemple de normalisation
 
